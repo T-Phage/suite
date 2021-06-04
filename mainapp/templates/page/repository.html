@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block repository %}
+{% load static %}
+<!-- uploadmodal -->
+{% include 'controls/uploadmodal.html' %}
+
+<!-- Createfoldermodal -->
+{% include 'controls/createfolder.html' %}
+
+<!--body tab-->
+<style>
+    a{
+        text-decoration: none;
+        color: rgb(80, 78, 78);
+    }
+    a:hover{
+        color: rgb(0, 0, 0);
+    }
+</style>
+    <!-- Side navbar -->
+<div class="row border">
+    <div class="sidenav col-4">
+        <h4 style="font-size:18px"></h4>
+        <div class="card" style="width:80%;">
+            <div class="card-header">
+                <a href="#" class="fa fa-folder" style="padding:0px 0px 0px 0px; font-size:20px; text-decoration:none;">Repository</a>
+            </div>
+            <div class="card-body" style="padding-top:0%;">
+    
+                <a href="" style="font-size:16px;"></a>
+              
+                {% for faculty in faculties %}
+                <details>
+                    <summary>{{faculty.faculty_name}}</summary>
+                    <ul>
+                        {% for department in departments %}
+                            {% if department.faculty == faculty %}
+                                <li>{{department.dept_name}}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </details>
+              {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- The main repository -->
+    <div class="main col-lg-8">
+        <div class="container" style="margin: 5px;">
+           
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="rep_nav" role="tablist" >
+                <li class="" data-bs-toggle="modal" data-bs-target="#exampleModalfolder">
+                    <a class="nav-link text-muted" data-toggle="modal" data-target="#folderModal" href="#"><i class="fa fa-folder"></i> Create folder</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-muted" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-upload"></i>Upload file
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li data-bs-toggle="modal" data-bs-target="#exampleModalfile"><a class="dropdown-item" href="#"><i class="fa fa-folder"></i>Directory</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="https://docs.google.com/document/u/0/" aria-disabled="true"><i class="fa fa-file-text"></i>google docs</a></li>
+                        <li><a class="dropdown-item" href="https://docs.google.com/spreadsheets/u/0/" aria-disabled="true"></i>google spreadsheet</a></li>
+                        <li><a class="dropdown-item" href="" aria-disabled="true"><i class="fa fa-powerpoint-text"></i>google presentation</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="container-fluid">
+            <!-- Faculties -->
+            <a class="row border container" href="{% url 'mainapp:faculty' request.user.department.faculty.id %}">
+                <div class="" style="width:100%; height:150px;">
+                    <div class="row col-md-10 col-sm-10 col-lg-10">
+                        <div class="col-sm-2 col-md-2 col-lg-2" style="padding-top:5%;height:100%;">
+                            <img src="{% static 'images/folder.jpeg' %}" width="50px" height="50px" style="padding-top:4%;" alt="">
+                        </div>
+                        <div class="col-md-8 col-sm-8">
+                            <h5 style="padding-top:10%; margin-left:0px; width:100%;">{{request.user.department.faculty}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <br />
+    
+            <!-- Department -->
+            <a  class="row border container" href="{% url 'mainapp:department' request.user.department.id %}">
+                <div class="" style="width:100%; height:150px;">
+                    <div class="row col-md-10 col-sm-10 col-lg-10">
+                        <div class="col-sm-2 col-md-2 col-lg-2" height="100%" style="padding-top:5%;">
+                            <img src="{% static 'images/folder.jpeg' %}" width="50px" height="50px" style="padding-top:4%;" alt="">
+                        </div>
+                        <div class="col-md-8 col-sm-8">
+                            <h5 style="padding-top:10%; margin-left:0px; width:100%;">{{request.user.department}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <br />
+    
+            <!-- Repository Folders -->
+            {% for folder in folders %}
+                <div class="row border" style="width:100%; height:150px;padding-left: 15px;">
+                    <a href="{% url 'mainapp:folder' folder.folder_url%}" class="col-9 row">
+                        <!-- <div class="row"> -->
+                            <div class="col-2 img-div">
+                                <img class="img" src="{% static 'images/folder.jpeg' %}" width="50px" height="50px" alt="">
+                            </div>
+                            <div class="col-8 label-name">
+                                <h5 style="margin-left:20px;">{{folder.folder_name}}</h5>
+                            </div>
+                        <!-- </div> -->
+                    </a>
+                    <div class="col-3 link-list-folder">
+                        <ul type="none" style="font-size:12px;">
+                            <li><a href="">Delete</a></li>
+                            <li><a href="">Permissions</a></li>
+                        </ul>
+                    </div>
+                    
+                </div>
+                <br >
+                {% endfor %}
+            <!-- repository files -->
+                {% for file in files %}
+                <div class="row border" id="files" style="border:1px groove gray; width:100%; height:150px;">
+                    <div class="row col-9">
+                        <span class="image col-sm-2" id="id_doc" style="padding-top:20px;">
+                            <a href=""><img class="img_doc" src="{% static ''%}" width="70px" height="70px" alt="icon"></a>
+                        </span>
+    
+                        <span class="filename col-sm-6" id="file_name" style="padding-top:8%;">
+                            <h6 style="padding-left:0;"><a href="{% url 'mainapp:docview' file.file_url %}" id="filename"> {{ file.filepath|cut:"files/" }}</a></h6>
+                        </span>
+                    </div>
+    
+                    <span class="col-3" style="padding: 40px; margin-left: -55px;">
+                        <ul type="none" style="font-size:12px;">
+                        <li><a href="">Delete</a></li>
+                        <li><a href="">Permissions</a></li>
+                        <li><a id="downloadfile" href="" download="">Download</a></li>
+                        </ul>
+                    </span>
+                </div>
+                <br />
+                {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

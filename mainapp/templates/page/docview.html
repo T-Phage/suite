@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% block docview %}
+<style>
+    .frame {
+        width:800px;
+        height:900px;
+        border: none
+    }
+    .fas {
+        color: black;
+        width: 25px;
+        border-width: 0px;
+    }
+    button {
+        color: white;
+    }
+    .buttons {
+        width: 800px;
+    }
+    .ver {
+        float: left;
+        margin-top: 100px;
+        /* position: fixed; */
+        background-color: #6868861f;
+        /* height: 100px; */
+        /* width: 100px; */
+        /* margin-left: 0px; */
+        padding-bottom: 15px;
+    }
+    
+    @media screen and (max-width: 450px){
+        #btn-file-list{visibility: visible;}
+        .frame{
+            height: 700px;
+            width: 100%;
+        }
+        .buttons {
+            width: 100%;
+        }
+        .ver{
+            display: none;
+            margin-top: 40px;
+            max-height: 300px;
+            position: fixed;
+            overflow-y: scroll;
+            float: right;
+            z-index: 1030;
+        }
+    }
+    
+</style>
+{% include 'controls/uploadmodal.html' %}
+<nav class="navbar-collapse" id="nav-file-list">
+<div class="col-md-3 ver">
+    <h5 style="height:40px;" class="border-bottom">Updated versions</h5>
+    {% for up_file in up_files %}
+    <ul class="list-group list-group-flush file-list">
+        <li url="{{ up_file.filepath.url }}" style="cursor:pointer;" class="list-group-item list-group-item-action">{{ up_file.filepath|cut:"files/"}} <br/> <sup>{{up_file.uploaded_by.get_full_name }} </sup> </li>
+    </ul>
+    {% endfor %}
+</div>
+</nav>
+    <div class="container-fluid main frame">
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="buttons">
+                    <button class="btn btn-light border-right" disabled title="Bold"><i class="fas fa-bold col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Italic"><i class="fas fa-italic col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Underline"><i class="fas fa-underline col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Font"><i class="fas fa-font col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Left alignment"><i class="fas fa-align-left col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Justify"><i class="fas fa-bars col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Center"><i class="fas fa-align-center col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Right alignment"><i class="fas fa-align-right col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Undo"><i class="fas fa-undo col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Redo"><i class="fas fa-redo col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Save"><i class="fas fa-save col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Edit"><i class="fas fa-edit col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title=""><i class="fas fa-files-o col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Ordered list"><i class="fas fa-list-ol col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Unordered list"><i class="fas fa-list-ul col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title=""><i class="fas fa-list-alt col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled><i class="fas fa-th-list col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Table"><i class="fas fa-table col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Strikethrough"><i class="fas fa-strikethrough col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Paragraph"><i class="fas fa-paragraph col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Superscript"><i class="fas fa-superscript col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Subscript"><i class="fas fa-subscript col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Right indent"><i class="fas fa-indent col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Left indent"><i class="fas fa-outdent col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Copy"><i class="fas fa-copy col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Cut"><i class="fas fa-cut col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Paste"><i class="fas fa-paste col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="create columns"><i class="fas fa-columns col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Heading"><i class="fas fa-header col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Bar chart"><i class="fas fa-bar-chart col-1"></i></button>   
+                    <button class="btn btn-light border-right" disabled title="Pie chart"><i class="fas fa-pie-chart col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Line chart"><i class="fas fa-line-chart col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Area chart"><i class="fas fa-area-chart col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled><i class="fas fa-language col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled><i class="fas fa-paperclip col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Clipboard"><i class="fas fa-clipboard col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled><i class="fas fa-info col-1"></i></button>
+                    <button class="btn btn-light border-right" disabled title="Print"><i class="fas fa-print col-1"></i></button>
+                    {% if file.uploaded_by == request.user or s_user.role == "manager" %}
+                    <button class="btn btn-light border-right" data-toggle="modal" data-target="#trash" title="Delete this file"><i class="fas fa-trash col-1"></i></button>
+                    {% else %}
+                    <button class="btn btn-light border-right" disabled title="Delete this file"><i class="fas fa-trash col-1"></i></button>
+                    {% endif %}
+                    <button class="btn btn-light border-right" id="o-file" url="" title="Open original file"><i class="fas fa-file col-1"></i></button>
+                    <!-- <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-light border-right" title="Upload edited version"><i class="fas fa-upload col-1"></i></a> -->
+                    <button class="btn btn-light border-right" title="Download this file"><a href="{{ file.filepath.url }}"><i class="fas fa-download col-1"></i></a></button>
+                    {% if file.uploaded_by == request.user or file.department == request.user.department or file.faculty == request.user.department.faculty or s_user.role == "consumer" or s_user.role == 'contributor' %}
+                    <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-light border-right" title="Upload edited version"><i class="fas fa-upload col-1"></i></a>
+                    {% else %}
+                    <button class="btn btn-light border-right" disabled title="Upload edited version"><i class="fas fa-upload col-1"></i></button>
+                    {% endif %}
+                </div>
+                <!-- </div> -->
+                
+                <div class="" style="margin-top: 1px;">
+                    
+                    <!-- <a href="/static/js/ViewerJS/index.html/#/static/MIS.pdf">open viewer</a> -->
+                    <!-- <iframe src="https://docs.google.com/gview?url=http://collaborative-suite.herokuapp.com/{{file.filepath.url}}&embedded=true" width="100%" height="500px" scrolling='no' frameborder='1'>
+    
+                    </iframe> -->
+                    <!-- <iframe class="text-center" src="https://docs.google.com/gview?url=http://collaborative-suite.herokuapp.com/media/files/f015bb80-7377-11ea-af46-cbfe4d1e9d99_B1_Pp364G4.docx&embedded=true" width="800px" height="900px" scrolling='no' frameborder='0'>
+    
+                    </iframe> -->
+                    <iframe id="id_frame" class="" src="https://docs.google.com/gview?url=http://collaborative-suite.herokuapp.com{{file.filepath.url}}&embedded=true" width="800px" height="900px" scrolling='no' frameborder='0'>
+    
+                    </iframe>
+                    <!-- <iframe class="frame" src="https://docs.google.com/gview?url=http://collaborative-suite.herokuapp.com{{file.filepath.url}}&embedded=true" scrolling='no' frameborder='0'>
+    
+                    </iframe> -->
+                    <!-- <iframe class="frame" src='https://view.officeapps.live.com/op/embed.aspx?src=http://collaborative-suite.herokuapp.com{{file.filepath.url}}' frameborder='0'> </iframe> -->
+                    <!-- <a href="https://products.groupdocs.app/editor/dd9177ba-7b4a-4929-b35f-571a1d4c5301/{{file.filepath|cut:'files/'}}">{{file.filepath|cut:'files/'}}</a> -->
+                    <!-- <iframe src="http://docs.google.com/viewer?url=http://collaborative-suite.herokuapp.com/media/files/f015bb80-7377-11ea-af46-cbfe4d1e9d99_B1_Pp364G4.docx"></iframe> -->
+                    
+                    <!-- <iframe src="/static/js/ViewerJS/index.html/#/static/MIS.pdf" width="100%" height="500px" scrolling='no' frameborder='1' allowfullscreen webkitallowfullscreen> </iframe> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+<div class="modal fade" id="trash" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Please select a delete option</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <!-- <a href="#" class="btn btn-secondary">Delete original file<br/><sup>This will delete the original file and updated versions</sup> </a>
+            <a href="#" class="btn btn-primary">Delete selected instance<br/><sup></sup> </a> -->
+        </div>
+        <div class="modal-footer">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <script>
+        $('.file-list li').on('click', function(){
+            var url = $(this).attr('url')
+            console.log(url)
+            var frame = $('#id_frame')
+            frame.attr('src', 'https://docs.google.com/gview?url=http://collaborative-suite.herokuapp.com' + url +'&embedded=true')
+        });
+        
+        $('#btn-file-list').on('click', function(){
+            $('.ver').show()
+        });
+        
+        $('#o-file').on('click', function(){
+            var frame = $('#id_frame')
+            frame.attr('src', 'https://docs.google.com/gview?url=http://collaborative-suite.herokuapp.com{{file.filepath.url}}&embedded=true')
+        });
+    </script>
+{% endblock %}

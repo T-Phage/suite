@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% block add_site_members %}
+{% load my_filter %}
+{% load custom_tags %}
+
+<style>
+    .user-list span:nth-child(2), .selectedUser li a{
+        position: absolute;
+        right: 0px;
+        padding: 5px;
+        background-color: white;
+    }
+    .remove-icon{
+        position: absolute;
+        right: 0px;
+        padding: 5px;
+        background-color: white;
+    }
+    #exampleModalprogress {
+        background-color: rgba(0,0,0,.2);
+        display: none;
+    }
+</style>
+
+<div class="container">
+    <div>
+        <div class="alert alert-warning alert-dismissible fade" role="alert">
+          <!-- <strong>Warning</strong> This user "<b></b>" is already selected -->
+        </div>
+        <!-- <div class="alert alert-danger alert-dismissible fade" role="alert">
+            <strong>Warning</strong> This user "<b></b>" is already a member of this site
+        </div> -->
+    </div>
+    <div class="row border-bottom">
+        <div class="col border-end border-start">
+            <form class="form-inline navbar-light bg-light border-top">
+                <div class="input-group">
+                    <input id="id_firstname" type="search" class="form-control" placeholder="search" aria-label="Search">
+                </div>
+            </form>
+            <hr />
+            <p>
+                <ul type="none" class="filter-list" id="filter-list" class="list-group">
+                    {% for user in users %}
+                    {% if user.username != request.user.username %}
+                    <!-- {% current_time "%d/%m/%Y %H:%M:%S %p" %} -->
+                    <li class="list-group-item list-group-item-light list-group-item-action user-list" onclick="addusertosite(this);" name="{{user.username}}">
+                        
+                        <span class="">{{user.get_full_name}}</span>
+                        
+                        <span style="cursor: pointer; color: blue;"><a title="Add This user">+</a> </span> 
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </p>
+        </div>
+        <div class="col border-end">
+            <h5 class="border-top" style="padding-top: 13px;font-weight: lighter;">Selected Users</h5>
+            <hr />
+            <ul type="none" id="selectedUser" class="list-group selectedUser">
+            
+            </ul>
+        </div>
+        <div class="col border-end">
+            <h5 class="border-top" style="padding-top: 13px;font-weight: lighter;">Select role</h5>
+            <hr />
+            <ul type="none" id="selectedRole" class="list-group selectedRole">
+                
+            </ul>
+        </div>
+        <div class="col border-end">
+            <h5 class="border-top border-bottom" style="padding-top: 13px;font-weight: lighter;">Site members<button style="margin: 0px 0px 0px 40px;" class="btn btn-outline-primary add-user">Add users</button></h5>
+            {% csrf_token %}
+            <!-- <hr /> -->
+            <!-- <ul type="none" id="selectedRole" class="list-group selectedRole">
+                
+            </ul> -->
+            <div class="siteusers" style="overflow-y: scroll;height:360px;">
+                {% for siteuser in siteusers %}
+                <p class="form-group" name="{{siteuser.user.username}}">{{siteuser.user.get_full_name}} {{siteuser.site}}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="exampleModalprogress" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered text-center">"
+        <div class="modal-content" style="border: 0px solid rgba(0,0,0,.2); background:transparent;">
+            <div class="text-center">
+                <div class="spinner-border text-info" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>  
+    </div>
+</div>
+<script>
+
+    var arr = []
+    var siteuserarry = []
+    var x = parseInt($('#selectedUser li:last-child').index())
+    var x = x + 1
+    
+    var ul = document.getElementsByClassName('siteusers')[0]
+    var li = ul.getElementsByTagName('p')
+    
+    for (var  i=0; i<li.length; i++){
+        window.siteuserarry.push(li[i].getAttribute("name"))
+    }
+
+    function addusertosite(e){
+        x += 1
+        username = e.getAttribute('name')
+        fullname = e.children[0].innerHTML
+        if (window.siteuserarry.find(e => e === username) == undefined){
+            if(window.arr.length < x){
+                if(window.arr.find(e => e === username) === undefined){
+                    window.arr.push(username);
+                    e.remove()
+                    $("#selectedUser").append('<li id="list" onclick="removesiteuser(this)" title="remove ' + fullname +  ' from this site" name="' + username + '" class="form-group form-control"><span class="form-control">' + fullname +  '</span><span><a class="" style="cursor: pointer; color: blue;" title="remove this user">-</a></span></li>')
+                    $("#selectedRole").append('<li class="form-group form-control" name="' + username + '"><select id="role" class="form-control"><option>-------</option><option>manager</option><option>collaborator</option><option>contributor</option><option>consumer</option></select></li>')
+                } else {
+                    $('.alert')[0].innerHTML = "<strong>Warning</strong> This user <b>"+fullname+"</b> is already selected"
+                    document.getElementsByClassName('alert-warning')[0].classList.add('alert-warning')
+                    document.getElementsByClassName('alert-warning')[0].classList.add('show')
+                    setInterval(function(){
+                        document.getElementsByClassName('alert')[0].classList.remove('show');
+                        document.getElementsByClassName('alert')[0].classList.remove('alert-warning');
+                        $('.alert')[0].innerHTML = ""
+                    }, 4000) 
+                }
+            }
+        }
+        else{
+            $('.alert')[0].innerHTML = "<strong>Warning</strong> This user <b>"+fullname+"</b> is already selected"
+            document.getElementsByClassName('alert')[0].classList.add('alert-danger')
+            document.getElementsByClassName('alert')[0].classList.add('show')
+            setInterval(function(){
+                document.getElementsByClassName('alert')[0].classList.remove('show');
+                document.getElementsByClassName('alert')[0].classList.remove('alert-danger');
+                $('.alert')[0].innerHTML = ""
+            }, 4000)
+        }
+    }
+
+    function removeElement(array, elem) { // remove an item from an array
+        var index = array.indexOf(elem);
+        if (index > -1) {
+            array.splice(index, 1);
+        }
+    }
+    function removesiteuser(e){
+        var uls = document.getElementsByClassName('selectedRole')[0]
+        var lis = uls.getElementsByTagName('li')
+        removeElement(arr, e.getAttribute('name'));
+        
+        for (var i=0; i<lis.length; i++){
+            if (lis[i].getAttribute("name") == e.getAttribute('name')){
+                lis[i].remove()
+                e.remove()
+            }
+        }
+        $(".filter-list").append('<li class="list-group-item list-group-item-light list-group-item-action user-list" name="'+e.getAttribute('name')+'" onclick="addusertosite(this);">\
+            <span class="">'+e.children[0].innerHTML+'</span>\
+            <span style="cursor: pointer; color: blue;"><a title="Add This user">+</a> </span></li>')
+    }
+    
+    $('.add-user').on('click', function(){
+        if(window.arr.length > 0){
+            document.getElementById('exampleModalprogress').style.display = 'block';
+
+            var selectedUserul = document.getElementsByClassName('selectedUser')[0]
+            var selectedUserli = selectedUserul.getElementsByClassName('form-group')
+    
+            var selectedRoleul = document.getElementsByClassName('selectedRole')[0]
+            var selectedRoleli = selectedRoleul.getElementsByTagName('li')
+            var x = 0;
+            if(selectedUserli.length == selectedRoleli.length){
+                for(var i=0; i<selectedUserli.length; i++){
+                    if(selectedUserli[i].getAttribute("name").toString() == selectedRoleli[i].getAttribute("name")){
+                        if(selectedRoleli[i].children[0].value.toString() != "-------"){
+                            var selvalue = selectedRoleli[i].children[0].value
+                            var username = selectedUserli[i].getAttribute("name")
+    
+                            $.ajax({
+                                url: "{% url 'mainapp:add_site_member_ajax' %}",
+                                type: "POST",
+                                data: {
+                                    username: username,
+                                    selvalue: selvalue,
+                                    site: "{{site}}",
+                                    csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val()
+                                },
+                                dataType: "json",
+                                success: function(response){
+                                    console.log(response.message)
+                                    x += 1
+                                    if (x == (selectedUserli.length-1)){
+                                        window.location.reload()
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

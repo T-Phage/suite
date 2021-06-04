@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block index %}  
+<section>
+    <!--******************************************** Side navbar ****************************************************-->
+    <div class="sidenav">
+        <h4 style="font-size:18px">{{request.user.get_full_name}} Dashboard</h4>
+        <div class="card" style="width:80%;">
+            <div class="card-header">
+                <a data-bs-toggle="modal" data-bs-target="#exampleModalsite" href="#" style="padding:0px 0px 0px 0px; font-size:20px" style="width:auto;"><i class="fa fa-globe"></i>Create site</a>
+            </div>
+            <div class="card-body" style="padding-top:0%;">  
+                {% for siteuser in siteusers %}      
+                <a href="{% url 'mainapp:open_site' siteuser.site.site_url%}">{{siteuser.site}}<br /><sup>{{siteuser.role}}</sup></a>
+                {% endfor %}               
+            </div>
+        </div>
+    </div>
+
+    <!-- The main dashboard -->
+    <div class="main">
+        <!--body tab-->
+        <nav class="container" style="font-size: 15px;">
+            
+            <!-- Nav tabs -->
+            <ul class="border-bottom">
+                <li class="">
+                    <a class="text-muted" href="">Document Library</a>
+                </li>
+                <li class="text-muted">/</li>
+                <li class="">
+                    <a class="text-muted" href="">Document Repository</a>
+                </li>
+            </ul>
+        </nav>
+    
+        <div class="dashboard">
+            <div class="container" style="margin-top: 10px">
+            <!-- First row daslet -->
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    <!-- My sites dashlet -->
+                    <div class="col">
+                        <div class="card"> 
+                            <div class="card-header" style="padding: 1px">
+                                <h6 class="fw-normal">All sites</h6>
+                            </div>
+                            <div class="card-body" style="position:relative; overflow-y:scroll; height: 170px;">
+                            <ul class="list-group list-group-flush" style="font-size:15px;">
+                                {% for site in site %}
+                                <a href="" class="list-group-item list-group-item-action">{{site.site_name}}<sub></sub></a>
+                                {% endfor %}
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- My Tasks dashlet -->
+                    <div class="col">
+                        <div class="card"> 
+                        <div class="card-header" style="padding: 1px">
+                            <h6 class="fw-normal">Tasks</h6> 
+                        </div>
+                        <div class="card-body" style="position: relative; overflow-y: scroll; height: 170px;">
+                            <ul class="list-group list-group-flush" style="font-size:14px;">
+                            
+                                <a href="" class="list-group-item list-group-item-action">
+                                    ok
+                                </a>
+                                
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card"> 
+                            <div class="card-header" style="padding: 1px">
+                                <h6 class="fw-normal">Activity</h6>
+                            </div>
+                            <div class="card-body" style="position: relative; overflow-y: scroll; height: 170px;">
+                        
+                            <ul class="list-group list-group-flush" style="font-size:14px;">
+                            {% for activity in activities %}
+                            {% if activity.user is None or activity.user == request.user %}
+                                <a href="{{activity.url}}" class="list-group-item list-group-item-action">{{activity.note}} <br><sup class="text-muted" id="activity">{{note.action_time | date:"Y/m/d H:m:s"}}</sup></a>
+                            {% endif %}
+                            {% endfor %}
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Notification dashlet -->
+                    <div class="col">
+                        <div class="card"> 
+                        <div class="card-header" style="padding: 1px">
+                            <h6 class="fw-normal">Notifications</h6>
+                        </div>
+                        <div class="card-body" style="position: relative; overflow-y: scroll; height: 170px;">
+                            <ul class="list-group list-group-flush note" style="font-size:14px;">
+                            {% for note in notes %} 
+                            {% if note.user == request.user or request.user.department == note.note|slice:"29:" %}
+                                <a href="{{note.url}}" class="list-group-item list-group-item-action">{{note.note}} <br><sup class="" id="time">{{note.action_time | date:"Y/m/d H:m:s"}}</sup></a>
+                            {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        </div>
+                    </div> 
+    
+                    <!-- Documents dashlet-->
+                    <div class="col">
+                        <div class="card"> 
+                            <div class="card-header" style="padding: 1px">
+                                <h6 class="fw-normal">Documents</h6>
+                            </div>
+                            <div class="card-body" style="position: relative; overflow-y: scroll; height: 170px;">
+                                <!-- https://docs.google.com/gview?url=https://collaborative-suite.herokuapp.com{{ file.filepath.url }}&embedded=true -->
+                                <ul class="list-group list-group-flush" style="font-size:14px;">
+                                {% for file in files %}
+                                    <a href="{% url 'suiteapp:open_file' file.id %}" class="list-group-item list-group-item-action">
+                                    <i><img width=20px src="{% static 'images/fileicons/ad_docs_icon.png' %}"></i>
+                                    {{file.filepath|cut:"files/"}}
+                                    </a>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</section>
+
+{% endblock %}

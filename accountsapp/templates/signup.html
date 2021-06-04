@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collab Login</title>
+
+    <link rel="stylesheet" href="{% static 'bootstrap-5.0.1-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="{% static 'bootstrap-5.0.1-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'jquery-3.5.1.min.js' %}"></script>
+    <style>
+        .signup {
+            border-style: hidden;
+            width: 350px;
+            max-height: fit-content;
+            /* height: 100%; */
+            padding: 2% 2% 2% 2%;
+            background-color:lightseagreen;
+            /* color: honeydew; */
+            /* text-align: center; */
+            margin: 0;
+            position: relative;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, 8%);
+            transition: 30.9s;
+            /* width: 40%; */
+        }
+        .signup input{
+            text-align: center;
+        }
+        .signup label{
+            text-align: left;
+            margin-left: 0px;
+            align-content: flex-start;
+        }
+        .signup h1, p{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .signup-btn {
+            /* width: 150%; */
+            margin: 0;
+            position: relative;
+            top: 0;
+            left: 50%;
+            transform: translate(-20%, -2%);
+        }
+        .fa-eye, .fa-eye-slash {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup">
+        <div class="form">
+            <div class="container border">
+                
+                    <h1 style="color: blanchedalmond;"></h1>
+                    <p style="color: blanchedalmond; font: 18px;"></p>
+                    {% for message in messages %}
+                        <p style="color:red;"><b>{{ message }}</b></p>
+                    {% endfor %}
+                    <!-- <div class="container border" style="margin-top:10px;"> -->
+                    <h4 style="padding-top:5px;padding-bottom:5px;text-align: center;">Fill Form to create Account</h4>
+                    <hr />
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-md-4 col-form-label" for="id_firstname">Firstname:</label>
+                            <div class="col-sm-8">
+                                {{ form.firstname }}
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-md-4 col-form-label" for="id_lastname">Surname :</label>
+                            <div class="col-sm-8">
+                                {{ form.surname}}
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-md-4 col-form-label" for="id_lastname">Othernames:</label>
+                            <div class="col-sm-8">
+                                {{ form.othername }}
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-md-4 col-form-label" for="id_lastname">Username:</label>
+                            <div class="col-sm-8">
+                                {{ form.username }}
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-md-4 col-form-label" for="id_email">Email :</label>
+                            <div class="col-sm-8">
+                                {{ form.email }}
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-md-4 col-form-label" for="id_gender">Gender :</label>
+                            <div class="col-sm-8">
+                                {{ form.gender }}
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-md-4 col-form-label" for="id_department">Department:</label>
+                            <div class="col-sm-8">
+                                {{ form.department }}
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-md-4 col-form-label" for="id_password1">Password:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group flex-nowrap">
+                                    {{ form.password1 }}
+                                    <span class="input-group-text" id="addon-wrapping"><i onclick="showpassword(this);" class="fa fa-eye"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-4 col-md-4 col-form-label" for="id_password2">Confrim password:</label>
+                            <div class="col-sm-8">
+                                <div class="input-group flex-nowrap">
+                                    {{ form.password2 }}
+                                    <span class="input-group-text" id="addon-wrapping"><i onclick="showpassword(this);" class="fa fa-eye"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-sm-12 signup-btn">
+                                <button type="submit" class="btn btn-light col-sm-4">Save</button>
+                                <!-- <a href="" class="btn btn-danger col-sm-3">Cancel</a> -->
+                                <!-- <p><span style="font-size: 15px;text-align: center;">Return to</span><a href="{% url 'signin' %}" style="color:#2e3838;font-size: 15px; text-decoration:underline;"> Login</a></p> -->
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-sm-12 signup-btn">
+                                <p><span style="font-size: 15px;text-align: center; color: blanchedalmond;">Return to</span><a href="{% url 'signin' %}" style="color:#2e3838;font-size: 15px; text-decoration:underline;"> Login</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            
+        </div>
+    </div>
+    <script>
+        function showpassword(e) {
+            // console.log(e)
+            var x = e.parentElement.parentElement.children[0];
+            if (x.type === "password") {
+                x.type = "text";
+                e.classList.remove('fa-eye')
+                e.classList.add('fa-eye-slash')
+            } else {
+                x.type = "password";
+                e.classList.remove('fa-eye-slash')
+                e.classList.add('fa-eye')
+            }
+        }
+    </script>
+</body>
+</html>

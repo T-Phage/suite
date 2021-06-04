@@ -1,0 +1,1 @@
+web: gunicorn suiteproreject.wsgi --log-file -

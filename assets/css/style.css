@@ -1,0 +1,142 @@
+    /* Chrome, Safari, Opera */
+    .sidenav::-webkit-scrollbar {
+        display: none;
+        }
+        .sidnav{
+        -ms-overflow-style:none;
+        /* IE , Edge */
+        scrollbar-width: none;
+    }
+    /* Side nav class */
+    .sidenav {
+        margin-top: 4%;
+        height: 100%;
+        width: 26%;
+        position: fixed;
+        /* z-index: 1; */
+        top: 0;
+        left: 0;
+        background-color:transparent;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+    
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 19px;
+        color: #818181;
+        display: block;
+        border-width: 2px;    
+    }
+    .main {
+        margin-left: 20%; /* Same as the width of the sidenav */
+        font-size: 17px; /* Increased text to enable scrolling */
+        padding: 0px 10px;
+        /* margin-top: 5%; */
+    } 
+    .main nav ul {
+        list-style-type: none;
+        padding: 30px auto 20px auto;
+        line-height: 50px;
+        text-align: right;
+    }
+    .main nav ul li{
+        text-decoration: none;
+        margin: auto 20px auto auto;
+        display: inline;
+        position: relative;
+    }
+    .main nav ul li a{
+        text-decoration: none;
+        margin: auto auto auto auto;
+        display: inline;
+        position: relative;
+    }
+
+    a img {
+        margin: auto auto auto auto;
+    }
+    @media screen and (max-width: 360px) {
+        .sidenav {
+            display: none;
+        }
+        /* .main{ */
+            /* margin: auto 30px auto 30px; */
+        /* } */
+        .main nav ul {
+            list-style-type: none;
+            padding: 30px auto 20px auto;
+            line-height: 50px;
+            text-align: center;
+        }
+        .main nav ul li{
+            text-decoration: none;
+            margin: auto auto auto auto;
+            padding: auto auto auto auto;
+            display: inline;
+            position: relative;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .sidenav {
+            display: none;
+        }
+        .main{
+            margin: auto 30px auto 30px;
+        }
+        /* .main nav ul {
+            list-style-type: none;
+            padding: 30px auto 20px auto;
+            line-height: 50px;
+            text-align: center;
+        } */
+        .main nav ul li{
+            text-decoration: none;
+            margin: auto 20px auto auto;
+            display: inline;
+            position: relative;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .sidenav {
+            display: none;
+        }
+        .main{
+            margin: auto 30px auto 30px;
+        }
+
+        /* .main nav ul {
+            list-style-type: none;
+            padding: 30px auto 20px auto;
+            line-height: 50px;
+            text-align: center;
+        } */
+        .main nav ul li{
+            text-decoration: none;
+            margin: auto 20px auto auto;
+            display: inline;
+            position: relative;
+        }
+    }
+    
+/* repository and mysite */
+    .img-div{
+        padding: 50px 0;
+    }
+    .img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .label-name{
+        padding: 65px 0;
+        margin-right: 0px;
+    }
+    .link-list-folder{
+        padding: 40px 0px;
+        margin-left: -15px;
+    }
