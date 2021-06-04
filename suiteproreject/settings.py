@@ -40,8 +40,6 @@ INSTALLED_APPS = [
     'accountsapp.apps.AccountsappConfig',
 ]
 
-# FIELD_ENCRYPTION_KEY = os.environ.get('FIELD_ENCRYPTION_KEY', 'f164ec6bd6fbc4aef5647abc15199da0f9badcc1d2127bde2087ae0d794a9ab')
-# FIELD_ENCRYPTION_KEYS = ["f164ec6bd6fbc4aef5647abc15199da0f9badcc1d2127bde2087ae0d794a9ab"]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -133,7 +131,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
